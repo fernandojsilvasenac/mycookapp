@@ -8,12 +8,10 @@ export default function Home(){
     const [selected, setSelected] = useState<string[]>([])
 
     function handleToggleSelected(value: string){
-        // console.log(value);
         if(selected.includes(value)){
             return setSelected( (state) => state.filter( (item) => item !== value) )
         }
         setSelected( (state) => [...state, value])
-        // console.log(selected.length);
     }
 
     function handleClearSelected(){
@@ -21,7 +19,6 @@ export default function Home(){
             {text: "Não", style: "cancel"},
             {text: "Sim", onPress: () => setSelected([]) },
         ])
-        
     }
 
     return(
