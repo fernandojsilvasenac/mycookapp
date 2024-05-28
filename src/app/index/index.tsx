@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {View, Text, ScrollView, Alert} from 'react-native';
 import { styles } from './styles';
 import { Ingredient } from '@/components/ingredient';
 import { Selected } from '@/components/selected';
 
+import { services } from '@/services';
+
 export default function Home(){
     const [selected, setSelected] = useState<string[]>([])
+    const [ingredients, setIngredients] = useState<IngredientResponse[]>([])
 
     function handleToggleSelected(value: string){
         if(selected.includes(value)){
@@ -21,6 +24,11 @@ export default function Home(){
         ])
     }
 
+    useEffect(() => {
+        services.ingredients.findAll().then(setIngredients)
+        console.log(ingredients)
+    }, [])
+
     return(
         <View style={styles.container}>
             <Text style={styles.title}>
@@ -35,11 +43,12 @@ export default function Home(){
                 contentContainerStyle={styles.ingredients}
                 showsVerticalScrollIndicator={false}
             >
-                {Array.from( {length:100} ).map( (item, index) => (
-                    <Ingredient key={index}  
-                        name="Maça" image="" 
-                        selected={selected.includes(String(index))}
-                        onPress={() => handleToggleSelected(String(index))}
+                {ingredients.map( (item) => (
+                    <Ingredient key={item.id}  
+                        name={item.name}
+                        image={`${services.storage.imagePath}/${item.image}`}
+                        selected={selected.includes(item.id)}
+                        onPress={() => handleToggleSelected(item.id)}
                     />
                 ))}
             </ScrollView>  
@@ -53,3 +62,11 @@ export default function Home(){
         </View>
     )
 }
+
+// {Array.from( {length:100} ).map( (item, index) => (
+//     <Ingredient key={index}  
+//         name="Maça" image="" 
+//         selected={selected.includes(String(index))}
+//         onPress={() => handleToggleSelected(String(index))}
+//     />
+// ))}

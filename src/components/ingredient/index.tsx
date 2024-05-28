@@ -18,7 +18,7 @@ export function Ingredient({
             {...rest}
         >
             <Image 
-                source={ require("@/assets/apple.png")} 
+                source={ {uri: image }} 
                 style={styles.image} 
             />
             <Text>{name}</Text>
