@@ -5,6 +5,7 @@ import { Ingredient } from '@/components/ingredient';
 import { Selected } from '@/components/selected';
 
 import { services } from '@/services';
+import { router } from 'expo-router';
 
 export default function Home(){
     const [selected, setSelected] = useState<string[]>([])
@@ -24,9 +25,13 @@ export default function Home(){
         ])
     }
 
+    function handleSearch(){
+        router.navigate("/recipes/")
+    }
+
     useEffect(() => {
         services.ingredients.findAll().then(setIngredients)
-        console.log(ingredients)
+        // console.log(ingredients)
     }, [])
 
     return(
@@ -56,7 +61,7 @@ export default function Home(){
                 <Selected 
                     quantity={selected.length} 
                     onClear={handleClearSelected}
-                    onSearch={() => {}}
+                    onSearch={handleSearch}
                 />          
             }
         </View>
