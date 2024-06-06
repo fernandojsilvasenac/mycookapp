@@ -1,10 +1,19 @@
 import { View, Text, FlatList } from "react-native"
 import { styles } from './styles';
 import { MaterialIcons } from "@expo/vector-icons";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Recipe } from "@/components/Recipe";
+import { useState } from "react";
 
 export default function Recipes(){
+    const [recipes, setRecipes] = useState<RecipeResponse[]>([])
+
+    const params = useLocalSearchParams<{ingredientsIds: string}>()
+
+    const ingredientesIds = params.ingredientsIds?.split(",") 
+
+
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>

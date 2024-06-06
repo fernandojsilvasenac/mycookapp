@@ -26,7 +26,7 @@ export default function Home(){
     }
 
     function handleSearch(){
-        router.navigate("/recipes/")
+        router.navigate("/recipes/" + selected)
     }
 
     useEffect(() => {
