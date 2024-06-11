@@ -15,5 +15,11 @@ export const styles = StyleSheet.create({
         fontFamily: theme.fonts.family.bold,
         marginTop:22,
         paddingLeft:10,
+    },
+    recipes:{
+        padding:32
+    },
+    recipesContent:{
+        gap:16
     }
 })

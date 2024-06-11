@@ -3,16 +3,28 @@ import { styles } from './styles';
 import { MaterialIcons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { Recipe } from "@/components/Recipe";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { services } from "@/services";
 
 export default function Recipes(){
     const [recipes, setRecipes] = useState<RecipeResponse[]>([])
+    const [ingredients, setIngredients] = useState<IngredientResponse[]>([])
+    // loading?: boolean | { delay?: number };
 
-    const params = useLocalSearchParams<{ingredientsIds: string}>()
+    const params = useLocalSearchParams<{ingredientsIds: string}>() 
 
-    const ingredientesIds = params.ingredientsIds?.split(",") 
+    const ingredientesIds = params.ingredientsIds!.split(",") 
+    console.log(ingredientesIds)
+    // lista os ingredientes selecionados na tela anterior
+    useEffect( () => {
+        services.ingredients.findByIds(ingredientesIds).then(setIngredients)
+    },[])
 
-
+    // Receitas
+    useEffect( () => {
+        services.recipes.findByIngredientsIds(ingredientesIds).then(setRecipes)
+        console.log(recipes)
+    },[])
 
     return (
         <View style={styles.container}>
@@ -24,16 +36,21 @@ export default function Recipes(){
                 />
             </View>
             <Text style={styles.title}>Ingredientes</Text>
+
             <FlatList
-                data={["1"]}
-                keyExtractor={(item) => item}
-                renderItem={ () => (
-                    <Recipe recipe={
-                        {name: "Omelete",
-                        image:"https://www.kitano.com.br/wp-content/uploads/2019/07/SSP_1993-Omelete-de-pizza-mussarela-ore%E2%95%A0%C3%BCgano-e-tomate.jpg",
-                        minutes: 5}}
+                data={recipes}
+                keyExtractor={(item) => item.id}
+                renderItem={ ({item}) => (
+                    <Recipe recipe={item}
+                        onPress={ () => router.navigate("/recipe/" + item.id)}
                     />
                 )}
+                style={styles.recipes}
+                contentContainerStyle={styles.recipesContent}
+                showsVerticalScrollIndicator={false}
+                columnWrapperStyle={{gap:16}}
+                numColumns={2}
+
             />    
         </View>
     )
