@@ -5,16 +5,18 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Recipe } from "@/components/Recipe";
 import { useEffect, useState } from "react";
 import { services } from "@/services";
+import { Ingredients } from "@/components/ingredients";
 
 export default function Recipes(){
     const [recipes, setRecipes] = useState<RecipeResponse[]>([])
     const [ingredients, setIngredients] = useState<IngredientResponse[]>([])
     // loading?: boolean | { delay?: number };
 
+    
     const params = useLocalSearchParams<{ingredientsIds: string}>() 
 
-    const ingredientesIds = params.ingredientsIds!.split(",") 
-    console.log(ingredientesIds)
+    const ingredientesIds = params.ingredientsIds ? params.ingredientsIds.split(",") : [];
+    
     // lista os ingredientes selecionados na tela anterior
     useEffect( () => {
         services.ingredients.findByIds(ingredientesIds).then(setIngredients)
@@ -36,6 +38,8 @@ export default function Recipes(){
                 />
             </View>
             <Text style={styles.title}>Ingredientes</Text>
+
+            <Ingredients ingredients={ingredients} />
 
             <FlatList
                 data={recipes}

@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     title:{
         fontSize:theme.fonts.size.heading.md,
         fontFamily: theme.fonts.family.bold,
-        marginTop:22,
+        marginTop:12,
         paddingLeft:10,
     },
     recipes:{
