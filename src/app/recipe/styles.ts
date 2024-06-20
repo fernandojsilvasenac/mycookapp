@@ -31,5 +31,14 @@ export const styles = StyleSheet.create({
         fontSize: theme.fonts.size.body.sm,
         fontFamily: theme.fonts.family.regular,
         color: theme.colors.gray_400,
+    }, 
+    preparation:{
+        fontSize: theme.fonts.size.body.sm,
+        fontFamily: theme.fonts.family.medium,
+        marginBottom:16,
+    },
+    containerScroll:{
+        marginBottom:14,
+        height:270,
     }
 })

@@ -6,6 +6,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { services } from "@/services";
 import { Loading } from "@/components/Loading";
 import { Step } from "@/components/Step";
+import { Ingredients } from "@/components/ingredients";
 
 import { styles } from './styles';
 
@@ -13,6 +14,7 @@ import { styles } from './styles';
 export default function Recipes(){
     const [recipe, setRecipe] = useState<RecipeResponse | null>(null)
     const [preparations, setPreparations] = useState<PreparationsResponse[]>([])
+    const [ingredients, setIngredients] = useState<IngredientResponse[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const { id } = useLocalSearchParams<{id: string}>() 
 
@@ -32,6 +34,14 @@ export default function Recipes(){
                 .finally( () => setIsLoading(false) )
     }, [])
 
+    useEffect( () =>{
+        if (id)
+            services.ingredients
+            .findByRecipeId(id)
+            .then( (response) => setIngredients(response))
+    }, [])
+
+
     if (isLoading){
         return <Loading />
     }
@@ -49,6 +59,8 @@ export default function Recipes(){
                     <Text style={styles.name}>{recipe?.name}</Text>
                     <Text style={styles.time}>{recipe?.minutes} minutos de preparo</Text>
                 </View>
+                
+                <Ingredients ingredients={ingredients}/>
 
                 <View style={styles.content}>
                     <Text style={styles.preparation}>Modo de preparo</Text>

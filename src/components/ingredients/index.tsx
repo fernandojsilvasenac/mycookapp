@@ -10,7 +10,7 @@ type Props ={
 export function Ingredients( { ingredients }: Props) {
     return (
         <ScrollView
-            contentContainerStyle={styles.container}
+            contentContainerStyle={styles.ingredientsContent}
             style={styles.container}
             showsHorizontalScrollIndicator={true}
             horizontal={true}
